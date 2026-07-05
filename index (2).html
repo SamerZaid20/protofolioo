@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samer Zaid — AI &amp; Machine Learning Engineer</title>
+<meta name="description" content="Samer Zaid — AI Engineer. Portfolio styled as a live model dashboard.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0E13;
+    --panel:#121821;
+    --panel-2:#161D27;
+    --ink:#EAF2F0;
+    --muted:#84979E;
+    --line:#232C36;
+    --accent:#7CE7B8;
+    --accent-ink:#0A0E13;
+    --accent-2:#FF8A65;
+    --radius:16px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Manrope',sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(124,231,184,0.06), transparent 40%),
+      radial-gradient(circle at 85% 20%, rgba(255,138,101,0.05), transparent 40%);
+    background-attachment:fixed;
+  }
+  ::selection{background:var(--accent);color:var(--accent-ink);}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  h1,h2,h3{font-family:'Sora',sans-serif;margin:0;letter-spacing:-0.01em;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;scroll-behavior:auto !important;}
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:60;
+    background:rgba(10,14,19,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    height:64px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.82rem;
+  }
+  .tb-left{display:flex;align-items:center;gap:10px;color:var(--muted);}
+  .tb-left .live{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(124,231,184,0.18);animation:blink 2.4s ease-in-out infinite;}
+  @keyframes blink{0%,100%{opacity:1;}50%{opacity:.35;}}
+  .tb-nav{display:none;gap:22px;color:var(--muted);}
+  @media(min-width:820px){.tb-nav{display:flex;}}
+  .tb-nav a{transition:color .15s ease;}
+  .tb-nav a:hover{color:var(--accent);}
+  .tb-right{display:flex;gap:8px;}
+  .icon-btn{
+    width:34px;height:34px;border-radius:9px;
+    border:1px solid var(--line);
+    background:var(--panel);
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .icon-btn:hover{border-color:var(--accent);transform:translateY(-1px);}
+  .icon-btn svg{width:16px;height:16px;stroke:var(--ink);}
+
+  /* ---------- HERO / DASHBOARD GRID ---------- */
+  .dash{padding:44px 0 20px;}
+  .dash-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+  }
+  .tile{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .tile:hover{border-color:rgba(124,231,184,0.35);}
+
+  .tile-profile{
+    grid-column:span 6;
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:24px;
+    align-items:center;
+    padding:24px;
+  }
+  @media(min-width:760px){.tile-profile{grid-column:span 3;grid-row:span 2;}}
+  .avatar{
+    width:96px;height:96px;border-radius:18px;overflow:hidden;
+    border:1px solid var(--line);
+    flex-shrink:0;
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;}
+  .tile-profile h1{font-size:1.5rem;margin-bottom:6px;}
+  .tile-profile .role{color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:10px;}
+  .tile-profile p{color:var(--muted);font-size:0.9rem;max-width:40ch;margin:0;}
+
+  .tile-metric{
+    grid-column:span 3;
+    display:flex;flex-direction:column;justify-content:space-between;
+    gap:16px;
+  }
+  @media(min-width:600px){.tile-metric{grid-column:span 2;}}
+  .tile-metric .m-label{
+    font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--muted);
+    text-transform:uppercase;letter-spacing:0.08em;
+  }
+  .tile-metric .m-value{font-family:'Sora',sans-serif;font-size:1.9rem;font-weight:700;}
+  .tile-metric .m-sub{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);}
+
+  .tile-status{
+    grid-column:span 6;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;gap:14px;
+  }
+  @media(min-width:760px){.tile-status{grid-column:span 3;}}
+  .status-pill{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+    background:rgba(124,231,184,0.08);
+    border:1px solid rgba(124,231,184,0.3);
+    color:var(--accent);
+    padding:8px 14px;border-radius:999px;
+  }
+  .status-pill .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+  .cta-row{display:flex;flex-wrap:wrap;gap:10px;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:11px 18px;border-radius:10px;
+    font-weight:600;font-size:0.86rem;
+    font-family:'Manrope',sans-serif;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary{background:var(--accent);color:var(--accent-ink);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(124,231,184,0.18);}
+  .btn-ghost{border:1px solid var(--line);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--accent);transform:translateY(-2px);}
+
+  /* ---------- PIPELINE (segmented bar, signature #2) ---------- */
+  .pipeline-block{padding:60px 0 40px;}
+  .pipeline-head{max-width:60ch;margin-bottom:28px;}
+  .pipeline-head .kicker{font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.08em;display:block;margin-bottom:10px;}
+  .pipeline-head h2{font-size:1.5rem;margin-bottom:8px;}
+  .pipeline-head p{color:var(--muted);font-size:0.92rem;}
+
+  .segbar{
+    display:flex;
+    border-radius:10px;
+    overflow:hidden;
+    height:52px;
+    border:1px solid var(--line);
+    margin-bottom:14px;
+  }
+  .seg{
+    flex:1;
+    position:relative;
+    background:var(--panel-2);
+    border-right:1px solid var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+    color:var(--muted);
+    transition:background .25s ease, color .25s ease;
+    cursor:default;
+  }
+  .seg:last-child{border-right:none;}
+  .seg:hover{background:var(--accent);color:var(--accent-ink);}
+  .seg .seg-num{position:absolute;top:6px;left:8px;font-size:0.62rem;opacity:0.7;}
+
+  .seglabels{
+    display:grid;
+    grid-template-columns:repeat(9,1fr);
+    gap:0;
+  }
+  .seglabels div{
+    font-size:0.7rem;color:var(--muted);
+    text-align:center;padding:0 4px;
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section.block{padding:60px 0;}
+  .section-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:10px;}
+  .section-head h2{font-size:1.5rem;}
+  .section-head .idx{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:0.8rem;}
+
+  /* ---------- ABOUT ---------- */
+  .about-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:28px;
+  }
+  .about-panel p{color:var(--muted);max-width:70ch;margin-bottom:14px;}
+  .about-panel p:last-child{margin-bottom:0;}
+  .about-panel .hl{color:var(--ink);}
+
+  /* ---------- PROJECTS BENTO ---------- */
+  .proj-grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:14px;
+  }
+  .pcard{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:24px;
+    grid-column:span 6;
+    transition:transform .18s ease, border-color .18s ease;
+  }
+  @media(min-width:760px){
+    .pcard{grid-column:span 3;}
+    .pcard.big{grid-column:span 4;}
+    .pcard.small{grid-column:span 2;}
+  }
+  .pcard:hover{transform:translateY(-3px);border-color:rgba(124,231,184,0.35);}
+  .pcard .tag{font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:10px;}
+  .pcard h3{font-size:1.1rem;margin-bottom:10px;}
+  .pcard p{color:var(--muted);font-size:0.88rem;margin-bottom:14px;}
+  .pcard .supervisor{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--muted);margin-bottom:12px;display:block;}
+  .stack{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{
+    font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+    background:var(--panel-2);border:1px solid var(--line);
+    padding:4px 10px;border-radius:999px;color:var(--ink);
+  }
+  .pcard.big{background:linear-gradient(160deg,#121821 0%,#0E2A22 130%);}
+
+  /* ---------- SKILLS ---------- */
+  .skill-panels{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:760px){.skill-panels{grid-template-columns:repeat(4,1fr);}}
+  .skill-panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px;}
+  .skill-panel .label{font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:12px;display:block;}
+  .skill-panel .chips{display:flex;flex-wrap:wrap;gap:8px;}
+
+  /* ---------- LOG (education/certs) ---------- */
+  .log{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel);}
+  .log-row{
+    display:grid;grid-template-columns:140px 1fr;gap:18px;
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+  }
+  .log-row:last-child{border-bottom:none;}
+  .log-row .ts{font-family:'JetBrains Mono',monospace;font-size:0.74rem;color:var(--accent);}
+  .log-row .title{font-family:'Sora',sans-serif;font-weight:600;margin-bottom:4px;}
+  .log-row .sub{color:var(--muted);font-size:0.86rem;}
+  @media(max-width:600px){.log-row{grid-template-columns:1fr;gap:6px;}}
+
+  /* ---------- LEADERSHIP ---------- */
+  .lead-grid{display:grid;grid-template-columns:1fr;gap:14px;}
+  @media(min-width:700px){.lead-grid{grid-template-columns:repeat(2,1fr);}}
+  .lead-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;}
+  .lead-card h3{font-size:0.98rem;margin-bottom:6px;}
+  .lead-card p{color:var(--muted);font-size:0.88rem;margin:0;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding:56px 0 34px;}
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:28px;margin-bottom:34px;}
+  @media(min-width:760px){.footer-grid{grid-template-columns:1.2fr 1fr;}}
+  footer h2{font-size:1.5rem;margin-bottom:12px;}
+  footer p{color:var(--muted);max-width:44ch;margin-bottom:20px;}
+  .contact-links{display:grid;gap:10px;}
+  .contact-row{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 16px;border:1px solid var(--line);border-radius:10px;
+    background:var(--panel);
+    transition:border-color .15s ease, transform .15s ease;
+  }
+  .contact-row:hover{border-color:var(--accent);transform:translateX(2px);}
+  .contact-row svg{width:16px;height:16px;stroke:var(--accent);flex-shrink:0;}
+  .contact-row .r-label{font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted);text-transform:uppercase;display:block;}
+  .contact-row .r-value{font-weight:600;font-size:0.88rem;}
+  .fine-print{
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;
+    padding-top:22px;border-top:1px solid var(--line);
+    font-size:0.76rem;color:var(--muted);font-family:'JetBrains Mono',monospace;
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="tb-left"><span class="live"></span> samer-zaid // status: online</div>
+    <div class="tb-nav">
+      <a href="#about">about</a><a href="#pipeline">pipeline</a><a href="#projects">projects</a><a href="#skills">skills</a><a href="#log">log</a><a href="#contact">contact</a>
+    </div>
+    <div class="tb-right">
+      <a class="icon-btn" href="https://github.com/SamerZaid20" target="_blank" rel="noopener" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.83-2.34 4.68-4.57 4.92.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+      </a>
+      <a class="icon-btn" href="https://www.linkedin.com/in/samer-zaid/" target="_blank" rel="noopener" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10v6.5M7.5 7.2v.1M11 16.5V13c0-1.4 1-2.5 2.5-2.5S16 11.6 16 13v3.5M11 10.2v6.3"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<main>
+  <section class="dash" id="about">
+    <div class="wrap">
+      <div class="dash-grid">
+
+        <div class="tile tile-profile">
+          <div class="avatar"><img src="assets/samer-photo.jpg" alt="Portrait of Samer Zaid"></div>
+          <div>
+            <h1>Samer Zaid</h1>
+            <div class="role">AI ENGINEER · ML ENGINEER · GENAI ENGINEER</div>
+            <p>Building end-to-end AI systems — AutoML, optimization, and LLM-powered tools — engineered to stay explainable and reliable on small, real-world datasets.</p>
+          </div>
+        </div>
+
+        <div class="tile tile-metric">
+          <span class="m-label">GPA</span>
+          <span class="m-value">3.228</span>
+          <span class="m-sub">/ 4.0 scale</span>
+        </div>
+        <div class="tile tile-metric">
+          <span class="m-label">Graduating</span>
+          <span class="m-value">2026</span>
+          <span class="m-sub">Delta University · AI Faculty</span>
+        </div>
+
+        <div class="tile tile-status">
+          <span class="status-pill"><span class="dot"></span> Available for graduate roles</span>
+          <div class="cta-row">
+            <a class="btn btn-primary" href="#projects">See projects</a>
+            <a class="btn btn-ghost" href="https://www.linkedin.com/in/samer-zaid/" target="_blank" rel="noopener">Connect</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PIPELINE (segmented bar) ===================== -->
+  <section class="pipeline-block" id="pipeline">
+    <div class="wrap">
+      <div class="pipeline-head">
+        <span class="kicker">SmartML // process.log</span>
+        <h2>A 9-stage pipeline for reliable AutoML on small data</h2>
+        <p>Hover any stage — this is how a raw spreadsheet becomes a trustworthy model in SmartML, my graduation project.</p>
+      </div>
+      <div class="segbar">
+        <div class="seg"><span class="seg-num">01</span>Ingest</div>
+        <div class="seg"><span class="seg-num">02</span>Quality</div>
+        <div class="seg"><span class="seg-num">03</span>Synthetic</div>
+        <div class="seg"><span class="seg-num">04</span>Features</div>
+        <div class="seg"><span class="seg-num">05</span>Split</div>
+        <div class="seg"><span class="seg-num">06</span>AutoML</div>
+        <div class="seg"><span class="seg-num">07</span>Ensemble</div>
+        <div class="seg"><span class="seg-num">08</span>Agent</div>
+        <div class="seg"><span class="seg-num">09</span>Export</div>
+      </div>
+      <div class="seglabels">
+        <div>Load &amp; profile data</div>
+        <div>Optimize gaps &amp; noise</div>
+        <div>Generate synthetic rows</div>
+        <div>Engineer signal</div>
+        <div>Leakage-safe split</div>
+        <div>Sweep model search</div>
+        <div>Combine strong models</div>
+        <div>Explain risks</div>
+        <div>Ship the model</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PROJECTS ===================== -->
+  <section class="block" id="projects">
+    <div class="wrap">
+      <div class="section-head"><h2>Projects</h2><span class="idx mono">./projects</span></div>
+      <div class="proj-grid">
+
+        <div class="pcard big">
+          <span class="tag">Graduation project · Delta University</span>
+          <h3>SmartML — reliable AutoML for small tabular datasets</h3>
+          <p>A complete 9-stage ML pipeline: data quality optimization, synthetic data generation, feature engineering, AutoML, and ensemble learning, built on a leakage-safe workflow. An integrated AI Agent explains risks and recommends improvements.</p>
+          <span class="supervisor">Supervised by Assoc. Prof. Dr. Tarek Mohamed Hassan</span>
+          <div class="stack"><span class="chip">AutoML</span><span class="chip">Ensemble Learning</span><span class="chip">LLM Agent</span><span class="chip">Python</span></div>
+        </div>
+
+        <div class="pcard small">
+          <span class="tag">DEPI project</span>
+          <h3>Sign Connect</h3>
+          <p>Text-to-Sign module converting written text into ASL videos for an accessibility platform.</p>
+          <div class="stack"><span class="chip">CV</span><span class="chip">NLP</span><span class="chip">Speech</span></div>
+        </div>
+
+        <div class="pcard">
+          <span class="tag">Optimization</span>
+          <h3>Smart Timetable Generator</h3>
+          <p>University scheduling with Genetic Algorithms, Reinforcement Learning, OR-Tools, and Greedy Algorithms.</p>
+          <div class="stack"><span class="chip">Genetic Algo</span><span class="chip">RL</span><span class="chip">OR-Tools</span></div>
+        </div>
+
+        <div class="pcard">
+          <span class="tag">Computer vision</span>
+          <h3>Plant Disease Detection</h3>
+          <p>Deep learning model for plant disease classification from image data.</p>
+          <div class="stack"><span class="chip">Deep Learning</span><span class="chip">Image Processing</span></div>
+        </div>
+
+        <div class="pcard">
+          <span class="tag">NLP</span>
+          <h3>Mental Health Chatbot</h3>
+          <p>Conversational NLP chatbot offering mental health guidance and support.</p>
+          <div class="stack"><span class="chip">NLP</span><span class="chip">Conversational AI</span></div>
+        </div>
+
+        <div class="pcard">
+          <span class="tag">Embedded systems</span>
+          <h3>Selected IoT Projects</h3>
+          <p>Smart Home, Weather Station, Smart Agriculture, Door Lock, Parking, and Fire &amp; Gas Detection on ESP32.</p>
+          <div class="stack"><span class="chip">ESP32</span><span class="chip">Sensors</span><span class="chip">Cloud</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ABOUT DETAIL ===================== -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head"><h2>About</h2><span class="idx mono">./readme</span></div>
+      <div class="about-panel">
+        <p><span class="hl">AI Engineer</span> with academic and hands-on experience across Machine Learning, Generative AI, Computer Vision, NLP, and Embedded AI systems.</p>
+        <p>Across graduation and industry projects, I've built end-to-end AI applications — AutoML platforms, optimization systems, and LLM-powered solutions — always with an eye on making the system explainable, not just accurate.</p>
+        <p>What I care about: AI that solves a real problem, scales past the demo, and can explain itself to the person relying on it. Based in Mansoura, Egypt.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SKILLS ===================== -->
+  <section class="block" id="skills">
+    <div class="wrap">
+      <div class="section-head"><h2>Skills</h2><span class="idx mono">./stack</span></div>
+      <div class="skill-panels">
+        <div class="skill-panel">
+          <span class="label">Languages</span>
+          <div class="chips"><span class="chip">Python</span><span class="chip">C#</span><span class="chip">C++</span><span class="chip">Java</span></div>
+        </div>
+        <div class="skill-panel">
+          <span class="label">AI / ML</span>
+          <div class="chips"><span class="chip">Machine Learning</span><span class="chip">Deep Learning</span><span class="chip">Generative AI</span><span class="chip">NLP</span><span class="chip">Computer Vision</span><span class="chip">Prompt Engineering</span><span class="chip">LLMs</span><span class="chip">RAG</span></div>
+        </div>
+        <div class="skill-panel">
+          <span class="label">Embedded</span>
+          <div class="chips"><span class="chip">Arduino</span><span class="chip">ESP32</span><span class="chip">ESP8266</span></div>
+        </div>
+        <div class="skill-panel">
+          <span class="label">Tools</span>
+          <div class="chips"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span><span class="chip">Google Colab</span><span class="chip">Jupyter</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LOG (education/certs) ===================== -->
+  <section class="block" id="log">
+    <div class="wrap">
+      <div class="section-head"><h2>Education &amp; Certifications</h2><span class="idx mono">./log</span></div>
+      <div class="log">
+        <div class="log-row">
+          <span class="ts">2022–2026</span>
+          <div><div class="title">Bachelor of Artificial Intelligence, Delta University</div><div class="sub">Faculty of Artificial Intelligence · GPA 3.228</div></div>
+        </div>
+        <div class="log-row">
+          <span class="ts">Jun–Dec 2025</span>
+          <div><div class="title">DEPI — Generative AI Professional Track</div><div class="sub">Six-month MCIT-sponsored program: Prompt Engineering, Python, Data Science, Statistics, ML, Deep Learning, NLP, Computer Vision, Transfer Learning, LLMs, GANs, Hugging Face, AI Ethics &amp; Governance, plus a capstone.</div></div>
+        </div>
+        <div class="log-row">
+          <span class="ts">Certificate</span>
+          <div><div class="title">NVIDIA Deep Learning Institute — Generative AI at ITI (35 hrs)</div><div class="sub">Python fundamentals, Generative AI, Prompt Engineering, LLM app development, RAG.</div></div>
+        </div>
+        <div class="log-row">
+          <span class="ts">Excellence</span>
+          <div><div class="title">Certificate of Excellence — Internet of Things (AOI)</div><div class="sub">IoT architecture, ESP32, sensors, actuators, protocols, cloud connectivity, monitoring.</div></div>
+        </div>
+        <div class="log-row">
+          <span class="ts">Training</span>
+          <div><div class="title">Machine Learning — Mansoura University</div><div class="sub">Supervised learning, model evaluation, predictive analytics.</div></div>
+        </div>
+        <div class="log-row">
+          <span class="ts">Training</span>
+          <div><div class="title">Robotics &amp; Smart Home / IoT — Smart Technology</div><div class="sub">Robotics fundamentals, sensors, actuators, embedded control, home automation.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LEADERSHIP ===================== -->
+  <section class="block">
+    <div class="wrap">
+      <div class="section-head"><h2>Leadership &amp; Activities</h2><span class="idx mono">./beyond</span></div>
+      <div class="lead-grid">
+        <div class="lead-card"><h3>Head of Graphic Design — AI Pioneers</h3><p>Led visual identity and design output for the AI Pioneers student community.</p></div>
+        <div class="lead-card"><h3>Media Head — BioCode</h3><p>Directed media coverage and content for BioCode events and initiatives.</p></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <h2>Let's talk about your next model.</h2>
+        <p>Open to graduate roles, research collaboration, and interesting problems in AutoML, GenAI, and applied ML.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:samermozaid@gmail.com">Email me</a>
+          <a class="btn btn-ghost" href="https://github.com/SamerZaid20" target="_blank" rel="noopener">View GitHub</a>
+        </div>
+      </div>
+      <div class="contact-links">
+        <a class="contact-row" href="mailto:samermozaid@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+          <span><span class="r-label">Email</span><span class="r-value">samermozaid@gmail.com</span></span>
+        </a>
+        <a class="contact-row" href="tel:+201020781580">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.4 2.1L8 9.9a16 16 0 0 0 6 6l1.4-1.4a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.8 2Z"/></svg>
+          <span><span class="r-label">Phone</span><span class="r-value">01020781580</span></span>
+        </a>
+        <a class="contact-row" href="https://github.com/SamerZaid20" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0-3.16 19.5c.5.1.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.46-1.15-1.11-1.46-1.11-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.93 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.5 9.5 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.83-2.34 4.68-4.57 4.92.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+          <span><span class="r-label">GitHub</span><span class="r-value">github.com/SamerZaid20</span></span>
+        </a>
+        <a class="contact-row" href="https://www.linkedin.com/in/samer-zaid/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10v6.5M7.5 7.2v.1M11 16.5V13c0-1.4 1-2.5 2.5-2.5S16 11.6 16 13v3.5M11 10.2v6.3"/></svg>
+          <span><span class="r-label">LinkedIn</span><span class="r-value">in/samer-zaid</span></span>
+        </a>
+      </div>
+    </div>
+    <div class="fine-print">
+      <span>Samer Mohamed Zaid — Mansoura, Egypt</span>
+      <span>status: online · last deployed today</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
